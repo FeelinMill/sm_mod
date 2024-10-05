@@ -1735,7 +1735,7 @@ void Samus_CancelSpeedBoost(void) {  // 0x91DE53
       CopyToSamusSuitPalette(addr_kSamusPalette_VariaSuit);
     }
     else {
-      CopyToSamusSuitPalette(addr_kSamusPalette_PowerSuit);
+      CopyToSamusSuitPalette(addr_kSamusPalette_GravitySuit);
     }
   }
   if ((speed_echoes_index & 0x8000) == 0) {
@@ -1759,7 +1759,7 @@ void Samus_LoadSuitPalette(void) {  // 0x91DEBA
     CopyToSamusSuitPalette(addr_kSamusPalette_VariaSuit);
   }
   else {
-    CopyToSamusSuitPalette(addr_kSamusPalette_PowerSuit);
+    CopyToSamusSuitPalette(addr_kSamusPalette_GravitySuit);
   }
 }
 
@@ -1771,7 +1771,7 @@ void Samus_LoadSuitTargetPalette(void) {  // 0x91DEE6
     CopyToSamusSuitTargetPalette(addr_kSamusPalette_VariaSuit);
   }
   else {
-    CopyToSamusSuitTargetPalette(addr_kSamusPalette_PowerSuit);
+    CopyToSamusSuitTargetPalette(addr_kSamusPalette_GravitySuit);
   }
 }
 

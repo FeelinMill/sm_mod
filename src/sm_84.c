@@ -589,8 +589,8 @@ const uint8 *PlmInstr_PickupBeamAndShowMessage(const uint8 *plmp, uint16 plm_idx
   equipped_beams &= ~((beam << 1) & kBeam_Plasma);
   equipped_beams &= ~((beam >> 1) & kBeam_Spazer);
   UpdateBeamTilesAndPalette();
-  PlayRoomMusicTrackAfterAFrames(360);
-  DisplayMessageBox(plmp[2]);
+  // PlayRoomMusicTrackAfterAFrames(360);
+  // DisplayMessageBox(plmp[2]);
   return plmp + 3;
 }
 
@@ -604,8 +604,8 @@ const uint8 *PlmInstr_PickupEquipmentAndShowMessage(const uint8 *plmp, uint16 pl
   uint16 item = GET_WORD(plmp);
   equipped_items |= item;
   collected_items |= item;
-  PlayRoomMusicTrackAfterAFrames(360);
-  DisplayMessageBox(plmp[2]);
+  // PlayRoomMusicTrackAfterAFrames(360);
+  // DisplayMessageBox(plmp[2]);
   return plmp + 3;
 }
 
@@ -620,8 +620,8 @@ const uint8 *PlmInstr_PickupEquipmentAddGrappleShowMessage(const uint8 *plmp, ui
   equipped_items |= item;
   collected_items |= item;
   AddGrappleToHudTilemap();
-  PlayRoomMusicTrackAfterAFrames(360);
-  DisplayMessageBox(kMessageBox_5_GrapplingBeam);
+  // PlayRoomMusicTrackAfterAFrames(360);
+  // DisplayMessageBox(kMessageBox_5_GrapplingBeam);
   return plmp + 2;
 }
 
@@ -636,8 +636,8 @@ const uint8 *PlmInstr_PickupEquipmentAddXrayShowMessage(const uint8 *plmp, uint1
   equipped_items |= item;
   collected_items |= item;
   AddXrayToHudTilemap();
-  PlayRoomMusicTrackAfterAFrames(360);
-  DisplayMessageBox(kMessageBox_6_XrayScope);
+  // PlayRoomMusicTrackAfterAFrames(360);
+  // DisplayMessageBox(kMessageBox_6_XrayScope);
   return plmp + 2;
 }
 
@@ -650,8 +650,8 @@ const uint8 *PlmInstr_PickupEquipmentAddXrayShowMessage(const uint8 *plmp, uint1
 const uint8 *PlmInstr_CollectHealthEnergyTank(const uint8 *plmp, uint16 plm_idx) {  // 0x848968
   samus_max_health += GET_WORD(plmp);
   samus_health = samus_max_health;
-  PlayRoomMusicTrackAfterAFrames(360);
-  DisplayMessageBox(kMessageBox_1_EnergyTank);
+  // PlayRoomMusicTrackAfterAFrames(360);
+  // DisplayMessageBox(kMessageBox_1_EnergyTank);
   return plmp + 2;
 }
 
@@ -665,8 +665,8 @@ const uint8 *PlmInstr_CollectHealthReserveTank(const uint8 *plmp, uint16 plm_idx
   samus_max_reserve_health += GET_WORD(plmp);
   if (reserve_health_mode == kReserveHealthMode_0_None)
     reserve_health_mode = kReserveHealthMode_1_Auto;
-  PlayRoomMusicTrackAfterAFrames(360);
-  DisplayMessageBox(kMessageBox_25_ReserveTank);
+  // PlayRoomMusicTrackAfterAFrames(360);
+  // DisplayMessageBox(kMessageBox_25_ReserveTank);
   return plmp + 2;
 }
 
@@ -678,11 +678,11 @@ const uint8 *PlmInstr_CollectHealthReserveTank(const uint8 *plmp, uint16 plm_idx
 */
 const uint8 *PlmInstr_CollectAmmoMissileTank(const uint8 *plmp, uint16 plm_idx) {  // 0x8489A9
   int amt = GET_WORD(plmp);
-  samus_max_missiles += amt;
-  samus_missiles += amt;
+  samus_max_missiles += 4;
+  samus_missiles += 4;
   AddMissilesToHudTilemap();
-  PlayRoomMusicTrackAfterAFrames(360);
-  DisplayMessageBox(kMessageBox_2_Missile);
+  // PlayRoomMusicTrackAfterAFrames(360);
+  //DisplayMessageBox(kMessageBox_2_Missile);
   return plmp + 2;
 }
 
@@ -697,8 +697,8 @@ const uint8 *PlmInstr_CollectAmmoSuperMissileTank(const uint8 *plmp, uint16 plm_
   samus_max_super_missiles += amt;
   samus_super_missiles += amt;
   AddSuperMissilesToHudTilemap();
-  PlayRoomMusicTrackAfterAFrames(360);
-  DisplayMessageBox(kMessageBox_3_SuperMissile);
+  // PlayRoomMusicTrackAfterAFrames(360);
+  //DisplayMessageBox(kMessageBox_3_SuperMissile);
   return plmp + 2;
 }
 
@@ -713,8 +713,8 @@ const uint8 *PlmInstr_CollectAmmoPowerBombTank(const uint8 *plmp, uint16 plm_idx
   samus_max_power_bombs += amt;
   samus_power_bombs += amt;
   AddPowerBombsToHudTilemap();
-  PlayRoomMusicTrackAfterAFrames(360);
-  DisplayMessageBox(kMessageBox_4_PowerBomb);
+  //PlayRoomMusicTrackAfterAFrames(360);
+  // DisplayMessageBox(kMessageBox_4_PowerBomb);
   return plmp + 2;
 }
 
@@ -892,6 +892,8 @@ const uint8 *PlmInstr_QueueMusic(const uint8 *plmp, uint16 k) {  // 0x848BD1
 * @return uint8* The pointer to the next PLM instruction
 */
 const uint8 *PlmInstr_ClearMusicQueueAndQueueTrack(const uint8 *plmp, uint16 plm_idx) {  // 0x848BDD
+// Get rid of item sound here
+  return plmp + 1;
   for (int queue_entry = 14; queue_entry >= 0; queue_entry -= 2) {
     int idx = queue_entry >> 1;
     music_queue_track[idx] = 0;
@@ -1026,7 +1028,7 @@ const uint8 *PlmInstr_QueueSfx3_Max1(const uint8 *plmp, uint16 plm_idx) {  // 0x
 */
 const uint8 *PlmInstr_ActivateMapStation(const uint8 *plmp, uint16 plm_idx) {  // 0x848C8F
   WORD(map_station_byte_array[area_index]) |= 0xFF;
-  DisplayMessageBox(kMessageBox_20_MapDataAccessCompleted);
+  // DisplayMessageBox(kMessageBox_20_MapDataAccessCompleted);
   has_area_map = true;
   return plmp;
 }
@@ -1039,7 +1041,7 @@ const uint8 *PlmInstr_ActivateMapStation(const uint8 *plmp, uint16 plm_idx) {  /
 */
 const uint8 *PlmInstr_ActivateEnergyStation(const uint8 *plmp, uint16 plm_idx) {  // 0x848CAF
   if (samus_max_health != samus_health) {
-    DisplayMessageBox(kMessageBox_21_EnergyRechargeCompleted);
+    // DisplayMessageBox(kMessageBox_21_EnergyRechargeCompleted);
     samus_health = samus_max_health;
   }
   RunSamusCode(kSamusCode_1_UnlockSamus);
@@ -1054,7 +1056,7 @@ const uint8 *PlmInstr_ActivateEnergyStation(const uint8 *plmp, uint16 plm_idx) {
 */
 const uint8 *PlmInstr_ActivateMissileStation(const uint8 *plmp, uint16 plm_idx) {  // 0x848CD0
   if (samus_max_missiles != samus_missiles) {
-    DisplayMessageBox(kMessageBox_22_MissileReloadCompleted);
+    // DisplayMessageBox(kMessageBox_22_MissileReloadCompleted);
     samus_missiles = samus_max_missiles;
   }
   RunSamusCode(kSamusCode_1_UnlockSamus);
@@ -1069,12 +1071,6 @@ const uint8 *PlmInstr_ActivateMissileStation(const uint8 *plmp, uint16 plm_idx) 
 * @return uint8* The pointer to the instruction specified if the player chooses not to save, otherwise the next PLM instruction
 */
 const uint8 *PlmInstr_ActivateSaveStationAndGotoIfNo(const uint8 *plmp, uint16 plm_idx) {  // 0x848CF1
-  int save_select = DisplayMessageBox_Poll(kMessageBox_23_WouldYouLikeToSave);
-  // If the message has not been displayed yet
-  if (save_select < 0)
-    return plmp - 2; // restart plm instr
-  if (save_select == kConfirmSave_No)
-    return INSTRB_RETURN_ADDR(GET_WORD(plmp));
   SpawnEprojWithRoomGfx(addr_kEproj_SaveStationElectricity, 0);
   load_station_index = plm_room_arguments[plm_id >> 1] & 7;
   PrepareBitAccess(load_station_index);
@@ -1815,7 +1811,7 @@ const uint8 *PlmInstr_PlaceSamusOnSaveStation(const uint8 *plmp, uint16 plm_idx)
 * @return uint8* The pointer to the next PLM instruction
 */
 const uint8 *PlmInstr_DisplayGameSavedMessageBox(const uint8 *plmp, uint16 plm_idx) {  // 0x84B024
-  DisplayMessageBox(kMessageBox_24_SaveCompleted);
+  // DisplayMessageBox(kMessageBox_24_SaveCompleted);
   return plmp;
 }
 
@@ -5077,7 +5073,8 @@ void CallPlmPreInstr(uint32 ea, uint16 plm_idx) {
   case fnPlmPreInstr_GoToLinkInstrIfShotWithAnyMissile: PlmPreInstr_GoToLinkInstrIfShotWithAnyMissile(plm_idx); return;
   case fnPlmPreInstr_GoToLinkInstrIfShotWithSuperMissile: PlmPreInstr_GoToLinkInstrIfShotWithSuperMissile(plm_idx); return;
   case fnPlmPreInstr_GoToLinkInstruction: PlmPreInstr_GoToLinkInstruction(plm_idx); return;
-  case fnPlmPreInstr_PlayDudSound: PlmPreInstr_PlayDudSound(plm_idx); return;
+  case fnPlmPreInstr_PlayDudSound: PlmPreInstr_PlayDudSound(plm_idx);
+  return;
   case fnPlmPreInstr_GotoLinkIfAreaBossDead: PlmPreInstr_GotoLinkIfAreaBossDead(plm_idx); return;
   case fnPlmPreInstr_GotoLinkIfMiniBossDead: PlmPreInstr_GotoLinkIfMiniBossDead(plm_idx); return;
   case fnPlmPreInstr_GotoLinkIfTorizoDead: PlmPreInstr_GotoLinkIfTorizoDead(plm_idx); return;
